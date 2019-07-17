@@ -1,0 +1,72 @@
+{
+  "welcomeFile": "/webapp/index.html",
+  "routes": [
+    {
+      "path": "/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources",
+        "version": "1.52.33"
+      },
+      "description": "SAPUI5 Resources"
+    },
+    {
+      "path": "/test-resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/test-resources",
+        "version": "1.52.33"
+      },
+      "description": "SAPUI5 Test Resources"
+    },
+    {
+      "path": "/destinations/D05",
+      "target": {
+        "type": "destination",
+        "name": "D05"
+      },
+      "description": "D05 Service"
+    },
+    {
+      "path": "/webapp/resources",
+      "target": {
+        "type": "service",
+        "name": "sapui5",
+        "entryPath": "/resources",
+        "preferLocal": true,
+        "version": "1.52.33"
+      },
+      "description": "SAPUI5 Dist layer Resources"
+    },
+    {
+      "path": "/sap/opu/odata",
+      "target": {
+        "type": "destination",
+        "name": "D05",
+        "entryPath":"/sap/opu/odata"
+      },
+      "description": "D05 OData Service"
+    },
+    {
+      "path": "/sap/bc/ui2/start_up",
+      "target": {
+        "type": "destination",
+        "name": "D05",
+        "entryPath":"/sap/bc/ui2/start_up"
+      },
+      "description": "D05 user info Service"
+    },
+{
+      "path": "/wdacaller",
+      "target": {
+        "type": "destination",
+        "name": "EPT5",
+        "entryPath":"/wdacaller"
+      },
+      "description": "EPT5 cookie Service"
+    }    
+  ],
+  "sendWelcomeFileRedirect": true
+}

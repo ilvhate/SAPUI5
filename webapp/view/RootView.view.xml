@@ -1,42 +1,29 @@
 <mvc:View controllerName="com.mtk.jingTestUI5.controller.RootView" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m"
-    xmlns:f="sap.ui.layout.form"
-    xmlns:u="sap.ui.unified"
-    xmlns:t="sap.ui.table"
-    xmlns:core="sap.ui.core">
+	xmlns:f="sap.ui.layout.form" xmlns:u="sap.ui.unified" xmlns:t="sap.ui.table" xmlns:core="sap.ui.core">
 	<Shell id="shell">
 		<App id="app">
 			<pages>
 				<Page id="page" title="{i18n>title}">
 					<content>
-						<f:SimpleForm id="SimpleFormChange"
-							editable="true"
-							layout="ResponsiveGridLayout"
-							title="User Info"
-							singleContainerFullSize="false" >
+						<f:SimpleForm id="SimpleFormChange" editable="true" layout="ResponsiveGridLayout" title="User Info" singleContainerFullSize="false">
 							<f:content>
-								<core:Title text="Basic" />
-								<Label text="Id" />
-								<Text id="idText" text="{userInfo>/id}" />
-								<Label text="Fullname" />
-								<Text text="{userInfo>/fullName}" />
-								<Label text="Client" />
-								<Text text="{userInfo>/client}" />
-								<Label text="Language" />
-								<Text id="langText" text="{userInfo>/language}" />
-								<Label text="Email" />
-								<Text id="mailText" text="{userInfo>/email}" />		
-								<core:Title text="Advanced" />
-								<Label text="Cookie" />
-								<Text id="cookieText" text="{cookie>/sap_ticket}" />	
+								<core:Title text="Basic"/>
+								<Label text="Id"/>
+								<Text id="idText" text="{userInfo>/id}"/>
+								<Label text="Fullname"/>
+								<Text text="{userInfo>/fullName}"/>
+								<Label text="Client"/>
+								<Text text="{userInfo>/client}"/>
+								<Label text="Language"/>
+								<Text id="langText" text="{userInfo>/language}"/>
+								<Label text="Email"/>
+								<Text id="mailText" text="{userInfo>/email}"/>
+								<core:Title text="Advanced"/>
+								<Label text="Cookie"/>
+								<Text id="cookieText" text="{cookie>/sap_ticket}"/>
 							</f:content>
 						</f:SimpleForm>
-						<t:Table
-							id="bpTable"
-							selectionMode="MultiToggle"
-							visibleRowCount="12"
-							enableSelectAll="false"
-							threshold="15"
-							enableBusyIndicator="true"
+						<t:Table id="bpTable" selectionMode="MultiToggle" visibleRowCount="12" enableSelectAll="false" threshold="15" enableBusyIndicator="true"
 							ariaLabelledBy="title">
 							<t:noData>
 								<BusyIndicator class="sapUiMediumMargin"/>
@@ -45,75 +32,48 @@
 								<Toolbar>
 									<Title id="title1" text="Business Partner Info"></Title>
 									<ToolbarSpacer/>
-									<Button
-										icon="sap-icon://refresh"
-										tooltip="Reinitialize Model"
-										press="onModelRefresh"/>
+									<Button icon="sap-icon://refresh" tooltip="Reinitialize Model" press="onModelRefresh"/>
 								</Toolbar>
-							</t:extension>				
+							</t:extension>
 							<t:columns>
-								<t:Column
-									sortProperty="BPName"
-									filterProperty="BPName"
-									autoResizable="true"
-									width="11rem">
-									<Label text="Business Partner" />
+								<t:Column sortProperty="BPName" filterProperty="BPName" autoResizable="true" width="11rem">
+									<Label text="Business Partner"/>
 									<t:template>
-										<Text text="{CompanyName}" wrapping="false" />
+										<Text text="{CompanyName}" wrapping="false"/>
 									</t:template>
 								</t:Column>
-								<t:Column
-									sortProperty="BPID"
-									filterProperty="BPID"
-									autoResizable="true"
-									>
-									<Label text="{/#SEPM_I_BusinessPartnerType/BusinessPartner/@sap:label}" />
+								<t:Column sortProperty="BPID" filterProperty="BPID" autoResizable="true">
+									<Label text="{/#SEPM_I_BusinessPartnerType/BusinessPartner/@sap:label}"/>
 									<t:template>
-										<Text text="{BusinessPartner}" wrapping="false" />
+										<Text text="{BusinessPartner}" wrapping="false"/>
 									</t:template>
 								</t:Column>
-								<t:Column
-									sortProperty="PhoneNumber"
-									filterProperty="PhoneNumber"
-									autoResizable="true"
-									>
-									<Label text="{/#SEPM_I_BusinessPartnerType/PhoneNumber/@sap:label}" />
+								<t:Column sortProperty="PhoneNumber" filterProperty="PhoneNumber" autoResizable="true">
+									<Label text="{/#SEPM_I_BusinessPartnerType/PhoneNumber/@sap:label}"/>
 									<t:template>
-										<Text text="{PhoneNumber}" wrapping="false" />
+										<Text text="{PhoneNumber}" wrapping="false"/>
 									</t:template>
 								</t:Column>
-								<t:Column
-									sortProperty="EmailAddress"
-									filterProperty="EmailAddress"
-									autoResizable="true"
-									>
-									<Label text="{/#SEPM_I_BusinessPartnerType/EmailAddress/@sap:label}" />
+								<t:Column sortProperty="EmailAddress" filterProperty="EmailAddress" autoResizable="true">
+									<Label text="{/#SEPM_I_BusinessPartnerType/EmailAddress/@sap:label}"/>
 									<t:template>
-										<Text text="{EmailAddress}" wrapping="false" />
+										<Text text="{EmailAddress}" wrapping="false"/>
 									</t:template>
 								</t:Column>
-								<t:Column
-									sortProperty="URL"
-									filterProperty="URL"
-									autoResizable="true"
-									>
-									<Label text="{/#SEPM_I_BusinessPartnerType/URL/@sap:label}" />
+								<t:Column sortProperty="URL" filterProperty="URL" autoResizable="true">
+									<Label text="{/#SEPM_I_BusinessPartnerType/URL/@sap:label}"/>
 									<t:template>
-										<Text text="{URL}" wrapping="false" />
+										<Text text="{URL}" wrapping="false"/>
 									</t:template>
 								</t:Column>
-								<t:Column
-									sortProperty="Currency"
-									filterProperty="Currency"
-									autoResizable="true"
-									>
-									<Label text="{/#SEPM_I_BusinessPartnerType/Currency/@sap:label}" />
+								<t:Column sortProperty="Currency" filterProperty="Currency" autoResizable="true">
+									<Label text="{/#SEPM_I_BusinessPartnerType/Currency/@sap:label}"/>
 									<t:template>
-										<Text text="{Currency}" wrapping="false" />
+										<Text text="{Currency}" wrapping="false"/>
 									</t:template>
-								</t:Column>								
-							</t:columns>	
-						</t:Table>	
+								</t:Column>
+							</t:columns>
+						</t:Table>
 					</content>
 				</Page>
 			</pages>

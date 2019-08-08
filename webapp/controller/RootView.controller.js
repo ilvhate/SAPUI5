@@ -65,7 +65,7 @@ sap.ui.define([
 							};
 							xhr.withCredentials = true;
 							xhr.send();*/
-			// resolve launchpad CORS issue
+			// resolve launchpad CORS issue [request header : x-xhr-logon not allow]; override XMLHTTPRequest.send 
 			this._overrideRequestPrototype();
 			// get JSON via jQuery ajax function instead of XMLHttpRequest(but jQuery won't support IE8 & IE9)
 			$.ajax({
@@ -81,11 +81,9 @@ sap.ui.define([
 				})
 				.fail(function (jqXHR, textStatus) {
 					console.log("fail get ajax request-->" + textStatus);
-				})
-				.always(function(){
-					_this._restoreRequestPrototype();
 				});
-
+			// restore XMLHTTPRequest.send method
+			this._restoreRequestPrototype();
 		},
 		onModelRefresh: function () {
 			//console.log("refresh model");

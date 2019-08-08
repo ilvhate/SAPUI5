@@ -4,77 +4,96 @@
 		<App id="app">
 			<pages>
 				<Page id="page" title="{i18n>title}">
-					<content>
-						<f:SimpleForm id="SimpleFormChange" editable="true" layout="ResponsiveGridLayout" title="User Info" singleContainerFullSize="false">
-							<f:content>
-								<core:Title text="Basic"/>
-								<Label text="Id"/>
-								<Text id="idText" text="{userInfo>/id}"/>
-								<Label text="Fullname"/>
-								<Text text="{userInfo>/fullName}"/>
-								<Label text="Client"/>
-								<Text text="{userInfo>/client}"/>
-								<Label text="Language"/>
-								<Text id="langText" text="{userInfo>/language}"/>
-								<Label text="Email"/>
-								<Text id="mailText" text="{userInfo>/email}"/>
-								<core:Title text="Advanced"/>
-								<Label text="Cookie"/>
-								<Text id="cookieText" text="{cookie>/sap_ticket}"/>
-							</f:content>
-						</f:SimpleForm>
-						<t:Table id="bpTable" selectionMode="MultiToggle" visibleRowCount="12" enableSelectAll="false" threshold="15" enableBusyIndicator="true"
-							ariaLabelledBy="title">
-							<t:noData>
-								<BusyIndicator class="sapUiMediumMargin"/>
-							</t:noData>
-							<t:extension>
-								<Toolbar>
-									<Title id="title1" text="Business Partner Info"></Title>
-									<ToolbarSpacer/>
-									<Button icon="sap-icon://refresh" tooltip="Reinitialize Model" press="onModelRefresh"/>
-								</Toolbar>
-							</t:extension>
-							<t:columns>
-								<t:Column sortProperty="BPName" filterProperty="BPName" autoResizable="true" width="11rem">
-									<Label text="Business Partner"/>
-									<t:template>
-										<Text text="{CompanyName}" wrapping="false"/>
-									</t:template>
-								</t:Column>
-								<t:Column sortProperty="BPID" filterProperty="BPID" autoResizable="true">
-									<Label text="{/#SEPM_I_BusinessPartnerType/BusinessPartner/@sap:label}"/>
-									<t:template>
-										<Text text="{BusinessPartner}" wrapping="false"/>
-									</t:template>
-								</t:Column>
-								<t:Column sortProperty="PhoneNumber" filterProperty="PhoneNumber" autoResizable="true">
-									<Label text="{/#SEPM_I_BusinessPartnerType/PhoneNumber/@sap:label}"/>
-									<t:template>
-										<Text text="{PhoneNumber}" wrapping="false"/>
-									</t:template>
-								</t:Column>
-								<t:Column sortProperty="EmailAddress" filterProperty="EmailAddress" autoResizable="true">
-									<Label text="{/#SEPM_I_BusinessPartnerType/EmailAddress/@sap:label}"/>
-									<t:template>
-										<Text text="{EmailAddress}" wrapping="false"/>
-									</t:template>
-								</t:Column>
-								<t:Column sortProperty="URL" filterProperty="URL" autoResizable="true">
-									<Label text="{/#SEPM_I_BusinessPartnerType/URL/@sap:label}"/>
-									<t:template>
-										<Text text="{URL}" wrapping="false"/>
-									</t:template>
-								</t:Column>
-								<t:Column sortProperty="Currency" filterProperty="Currency" autoResizable="true">
-									<Label text="{/#SEPM_I_BusinessPartnerType/Currency/@sap:label}"/>
-									<t:template>
-										<Text text="{Currency}" wrapping="false"/>
-									</t:template>
-								</t:Column>
-							</t:columns>
-						</t:Table>
-					</content>
+					<Panel expandable="true" expanded="true" headerText="User Info Panel" width="auto" class="sapUiResponsiveMargin">
+						<content>
+							<f:SimpleForm id="SimpleFormChange" editable="false" layout="ResponsiveGridLayout" title="" singleContainerFullSize="false"
+								labelSpanXL="4"
+								labelSpanL="4"
+								labelSpanM="12"
+								labelSpanS="12"
+								adjustLabelSpan="false"
+								emptySpanXL="0"
+								emptySpanL="0"
+								emptySpanM="0"
+								emptySpanS="0"
+								columnsXL="2"
+								columnsL="2"
+								columnsM="1">
+								<f:content>
+									<core:Title text="Basic"/>
+									<Label text="Id"/>
+									<Text id="idText" text="{userInfo>/id}"/>
+									<Label text="Fullname"/>
+									<Text text="{userInfo>/fullName}"/>
+									<Label text="Client"/>
+									<Text text="{userInfo>/client}"/>
+									<Label text="Language"/>
+									<Text id="langText" text="{userInfo>/language}"/>
+									<Label text="Email"/>
+									<Text id="mailText" text="{userInfo>/email}"/>
+									<core:Title text="Advanced"/>
+									<Label text="Cookie"/>
+									<Text id="cookieText" text="{cookie>/sap_ticket}"/>
+								</f:content>
+							</f:SimpleForm>
+						</content>
+					</Panel>
+					<Panel expandable="true" expanded="true" headerText="Business Partner Panel" width="auto" class="sapUiResponsiveMargin">
+						<content>
+							<t:Table id="bpTable" selectionMode="MultiToggle" visibleRowCount="10" enableSelectAll="false" threshold="15" enableBusyIndicator="true"
+								ariaLabelledBy="title">
+								<t:noData>
+									<BusyIndicator class="sapUiMediumMargin"/>
+								</t:noData>
+								<t:extension>
+									<Toolbar>
+										<Title id="title1" text="Business Partner Info"></Title>
+										<ToolbarSpacer/>
+										<Button icon="sap-icon://refresh" tooltip="Refresh Grid" press="onModelRefresh"/>
+										<Button icon="sap-icon://excel-attachment" tooltip="Export Excel" press="onExcelExport"/>
+									</Toolbar>
+								</t:extension>
+								<t:columns>
+									<t:Column sortProperty="CompanyName" filterProperty="CompanyName" autoResizable="true" width="11rem">
+										<Label text="Business Partner"/>
+										<t:template>
+											<Text text="{CompanyName}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="BusinessPartner" filterProperty="BusinessPartner" autoResizable="true">
+										<Label text="{/#SEPM_I_BusinessPartnerType/BusinessPartner/@sap:label}"/>
+										<t:template>
+											<Text text="{BusinessPartner}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="PhoneNumber" filterProperty="PhoneNumber" autoResizable="true">
+										<Label text="{/#SEPM_I_BusinessPartnerType/PhoneNumber/@sap:label}"/>
+										<t:template>
+											<Text text="{PhoneNumber}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="EmailAddress" filterProperty="EmailAddress" autoResizable="true">
+										<Label text="{/#SEPM_I_BusinessPartnerType/EmailAddress/@sap:label}"/>
+										<t:template>
+											<Text text="{EmailAddress}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="URL" filterProperty="URL" autoResizable="true">
+										<Label text="{/#SEPM_I_BusinessPartnerType/URL/@sap:label}"/>
+										<t:template>
+											<Text text="{URL}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="Currency" filterProperty="Currency" autoResizable="true">
+										<Label text="{/#SEPM_I_BusinessPartnerType/Currency/@sap:label}"/>
+										<t:template>
+											<Text text="{Currency}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+								</t:columns>
+							</t:Table>
+						</content>
+					</Panel>
 				</Page>
 			</pages>
 		</App>

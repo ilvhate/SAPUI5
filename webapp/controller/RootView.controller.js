@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	"sap/ui/model/odata/v2/ODataModel",
-	"sap/ui/model/json/JSONModel"
-], function (Controller, ODataModel, JSONModel) {
+	"sap/ui/model/json/JSONModel",
+	"sap/ui/export/Spreadsheet"
+], function (Controller, ODataModel, JSONModel, Spreadsheet) {
 	"use strict";
 
 	return Controller.extend("com.mtk.jingTestUI5.controller.RootView", {
@@ -64,7 +65,8 @@ sap.ui.define([
 							};
 							xhr.withCredentials = true;
 							xhr.send();*/
-
+			// resolve launchpad CORS issue
+			this._overrideRequestPrototype();
 			// get JSON via jQuery ajax function instead of XMLHttpRequest(but jQuery won't support IE8 & IE9)
 			$.ajax({
 					url: url,
@@ -73,12 +75,15 @@ sap.ui.define([
 					},
 					dataType: "JSON"
 				})
-				.done( function(data){
+				.done(function (data) {
 					console.log("Sucess get ajax request-->" + JSON.stringify(data));
 					_this.onTicketReturned(data);
-				} )
+				})
 				.fail(function (jqXHR, textStatus) {
 					console.log("fail get ajax request-->" + textStatus);
+				})
+				.always(function(){
+					_this._restoreRequestPrototype();
 				});
 
 		},
@@ -111,13 +116,139 @@ sap.ui.define([
 			this.getView().setModel(oModelCookie, "cookie");
 			this.getView().bindElement("cookie/");
 			console.log("call BP Odata");
-			var oModelBP = new ODataModel("/sap/opu/odata/sap/Z_JING_C_SALESORDER_TX_CDS");
+			//get metadata label in English
+			var oModelBP = new ODataModel("/sap/opu/odata/sap/Z_JING_C_SALESORDER_TX_CDS", {
+				metadataUrlParams: {
+					"sap-language": "en"
+				}
+			});
 			oModelBP.setHeaders(data);
+			//console.log($.sap.log.Level.ERROR);
 			var oTable = this.getTable();
 			this.oBusyIndicator = oTable.getNoData();
 			oTable.setModel(oModelBP);
 			oTable.bindRows("/SEPM_I_BusinessPartner");
 			this.initBindingEventHandler();
+		},
+		onExcelExport: function () {
+			var aCols, oRowBinding, oSettings, oTable;
+			oTable = this.getTable();
+			oRowBinding = oTable.getBinding("rows"); //this is important! bindingInfo
+
+			aCols = this.createColumnConfig();
+
+			var oModel = oTable.getModel();
+			var oModelInterface = oModel.getInterface();
+
+			oSettings = {
+				workbook: {
+					columns: aCols
+				},
+				dataSource: {
+					type: "oData",
+					dataUrl: oRowBinding.getDownloadUrl ? oRowBinding.getDownloadUrl() : null,
+					serviceUrl: oModelInterface.sServiceUrl,
+					headers: oModelInterface.getHeaders ? oModelInterface.getHeaders() : null,
+					count: oRowBinding.getLength ? oRowBinding.getLength() : null,
+					useBatch: oModelInterface.bUseBatch,
+					sizeLimit: oModelInterface.iSizeLimit
+				},
+				worker: true,
+				fileName: "Business Partner.xlsx"
+			};
+
+			new Spreadsheet(oSettings).build();
+		},
+		createColumnConfig: function () {
+			var aCols = [];
+
+			aCols.push({
+				label: "Business Partner",
+				type: "string",
+				property: "CompanyName"
+			});
+
+			aCols.push({
+				label: "Business Partner ID",
+				property: "BusinessPartner",
+				type: "string"
+			});
+
+			aCols.push({
+				label: "Phone Number",
+				property: "PhoneNumber",
+				type: "string"
+			});
+
+			aCols.push({
+				label: "Email Address",
+				property: "EmailAddress",
+				type: "string"
+			});
+
+			aCols.push({
+				property: "URL",
+				type: "string"
+			});
+
+			aCols.push({
+				property: "Currency",
+				type: "string"
+			});
+
+			/*			aCols.push({
+							label: 'Full name',
+							property: ['Lastname', 'Firstname'],
+							type: 'string',
+							template: '{0}, {1}'
+						});
+
+						aCols.push({
+							property: 'Salary',
+							type: 'number',
+							scale: 2,
+							delimiter: true
+						});*/
+
+			/*			aCols.push({
+							property: 'Active',
+							type: 'boolean',
+							trueValue: 'YES',
+							falseValue: 'NO'
+						});
+			*/
+			return aCols;
+		},
+
+		_overrideRequestPrototype: function () {
+			if (!XMLHttpRequest._SAP_ENHANCED) {
+				return;
+			}
+			this.__send = XMLHttpRequest.prototype.send;
+			XMLHttpRequest.prototype.send = function (oBody) {
+				let oChannel = {};
+				this._checkEventSubscriptions();
+				try {
+					oChannel = this._channel;
+					this._saveParams(oBody);
+					this._send(oBody);
+					if (oChannel) {
+						oChannel.sent();
+					}
+				} catch (oError) {
+					if (oChannel) {
+						oChannel["catch"](oError);
+					} else {
+						throw oError;
+					}
+				}
+			};
+		},
+		_restoreRequestPrototype: function () {
+			if (!XMLHttpRequest._SAP_ENHANCED) {
+				return;
+			}
+			XMLHttpRequest.prototype.send = this.__send;
 		}
 	});
 });
